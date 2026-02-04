@@ -1,0 +1,18 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t playwright-tests .
+
+      - name: Run Playwright tests
+        run: docker run -e BASE_URL=https://google.com playwright-tests
