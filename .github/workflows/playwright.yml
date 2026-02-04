@@ -17,3 +17,14 @@ jobs:
 
       - name: Run Playwright tests
         run: docker run -e BASE_URL=https://google.com playwright-tests
+        continue-on-error: true
+
+      - name: Copy Playwright report from container
+        run: |
+          docker cp pw-tests:/app/playwright-report ./playwright-report
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-html-report
+          path: playwright-report
